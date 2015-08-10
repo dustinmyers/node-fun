@@ -7,6 +7,11 @@ var cors = require('cors');
 var request = require('request');
 var twilio = require('twilio');
 
+var accountSid = 'AC23fbb68bb57bb2d84122c6f35d012e68'; 
+var authToken = '613ddba778a968f24def6527ffcaf835'; 
+ 
+var client = twilio(accountSid, authToken);
+
 
 var app = express();
 var port = 3033;
@@ -33,8 +38,15 @@ app.get('/api/message', function(req, res) {
 });
 app.post('/api/send_text_message', function(req, res) {
     console.log(req.body.message);
-    res.send();
-})
+    // request.post('https://' + accountSid + ':' + authToken + '@api.twilio.com/2010-04-01/Accounts/' + accountSid + '/Messages.json')
+    client.messages.create({ 
+    	to: "2089641796", 
+    	from: "+12082153865", 
+    	body: "req.body.message",   
+    }, function(err, message) { 
+    	console.log(message.sid); 
+    });
+});
 
 
 
